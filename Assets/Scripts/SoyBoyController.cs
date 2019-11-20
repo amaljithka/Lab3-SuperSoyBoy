@@ -24,6 +24,8 @@ public class SoyBoyController : MonoBehaviour
     public float jumpDurationThreshold = 0.25f;
     private float jumpDuration;
 
+    public float airAccel = 3f;
+
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -101,10 +103,19 @@ public class SoyBoyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        var acceleration = accel;
+        var acceleration = 0f;
+        if (PlayerIsOnGround())
+        {
+            acceleration = accel;
+        }
+        else
+        {
+            acceleration = airAccel;
+        }
+
         var xVelocity = 0f;
 
-        if (input.x == 0)
+        if (PlayerIsOnGround() && input.x == 0)
         {
             xVelocity = 0f;
         }
